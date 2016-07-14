@@ -1,0 +1,75 @@
+<!-- views/pages/about.ejs -->
+
+<html lang="en">
+<head>
+<script>
+function myFunction() {
+    alert('Hello');
+}
+</script>   
+    <% include ../partials/heade %>
+</head>
+<body class="container">
+    <header>
+        <% include ../partials/headerwork %>
+    </header>
+    <main>
+        <div class="jumbotron">
+            
+            
+             <% if (data.length> 0) {%>
+           <div class="row">
+                <div class="col-sm-4">
+                    <form action="/login"  method="post" >
+                        <p>narrow down your search</p> <select name="selection" style="height:30px">
+                        <option value="all">all</option><form action="/login"  method="post" name = "price" value='<%=data.price%>'  >
+                        <% data.forEach(function (data){%>
+                                <option value="<%=data.type%>"><%=data.type%></option>
+                                <% }); %> </select> <button type="submit"  class="btn btn-primary btn-sm" formaction="/frd">find</button><br></form>
+                            <%data.forEach( function( data ){ %>
+                                <pre style="width:100%">
+<form action="/login"  method="post" name = "price" value='<%=data.price%>'  >
+    <p style="font-size: 15px" name ="cat">
+    <pre name = "type" value='<%=data.type%>'><p><%= data.description %></p></pre> <p > <%= data.type %> </p><p>   <%= data.price %></p>
+     <button type="submit"   class="btn btn-primary btn-sm" onclick="myFunction();" formaction="/addchangeditem">order with a difference</button>
+     <button type="submit" name = "id" value='<%=data._id%>' class="btn btn-primary btn-sm"  onclick="myFunction();" formaction="/addnew">order</button></p> </pre>      
+              <% }); %>      <% } %>     
+                        
+                   
+                </div>
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <pre> <p>items ordered</p>
+                        <% order.forEach(function (order){%>
+                                <p >order number <%=order._id%></p>
+
+                        <div class="form-group">
+                                      
+                            <label>description:</label>
+                           
+                            <input type="text" class="form-control" name="table" >
+                            <label>type:</label>
+                            <input type="text" class="form-control" name="type">
+                            <label>price:</label>
+                            <input type="text" class="form-control" name="price">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg" formaction="/editedstuff">Add to Top</button>
+                    </form>
+
+
+
+                                <% }); %>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+   
+    </main>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+</body>
+</html>

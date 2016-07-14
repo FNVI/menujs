@@ -1,0 +1,47 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <% include ../views/partials/heade %>
+    </head>
+    <body class="container">
+        <header>
+            <% include ../views/partials/headerwork %>
+        </header>
+        <main>
+            <div class="jumbotron">
+                <pre >
+<% if (!order) {%>
+<p>currently no orders</p>
+<%}%>
+<% if (typeof order ? order : '') {%>
+                        <% order.forEach(function (order){%> 
+  <% if(order.orderitem.length !== 0){%>            
+                        <pre  class="col-sm-6"style="width: 45%;min-height:230px; margin-left: 2%">
+<p>order id <%=order._id%></p>
+<p>current status <%=order.status.food%></p>
+<div class="container">
+<% for( e= 0; e<order.orderitem.length; e++){%><table>
+        <p>    <%=order.orderitem[e].description%>         X<%=order.orderitem[e].qty%></p>
+<% if(order.orderitem[e].options.length !== 0){%><p>options</p>
+<% for( l= 0; l<order.orderitem[e].options.length; l++){%>    
+<p> <%=p = l+1%>:   <%=order.orderitem[e].options[l]%></p><%}%><%}%>               
+<br>
+</table>
+    <%}%>   
+</div>
+<form action="/login"  method="post" >
+<button type="submit" name = "id" value='<%=order._id%>' class="btn btn-primary btn-sm"  formaction="/nextstage<%=order.status.food%>">next</button>
+</p></form>
+                        </pre>
+ <% }}) %>
+<%}%>
+            </pre> 
+        </div>
+    </main>
+    <footer>
+        <% include ../views/partials/footer %>
+    </footer>
+</body>
+</html>

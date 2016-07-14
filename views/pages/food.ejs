@@ -1,0 +1,66 @@
+<!-- views/pages/about.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <% include ../partials/heade %>
+    </head>
+    <body class="container">
+        <header>
+            <% include ../partials/headerwork %>
+        </header>
+
+        <main>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h3 style="align-content: center">form stuff</h3>
+                        <a class="btn btn-block btn-default" href="/add">add new</a>
+                        <a class="btn btn-block btn-default" href="/signup"> add new user</a>
+                        
+                        <form action="/login"  method="post"  >
+                              <% if (typeof data != "undefined"){ %>
+                            <select name="selection" style="margin: 5px;height:50px; width: 100%;margin-bottom: 5px">
+                                <% data.forEach(function (data){%>
+                                <option value="<%=data._id%>"><%=data.description%></option>
+                                <% }); %> </select>  <br>                     
+                                <button type="submit" style="margin-left:15%; margin-right:5%" class="btn btn-primary btn-sm" formaction="/editstuff">edit</button>
+                                <button type="submit" style="margin-left:5%; margin-right:5%" class="btn btn-primary btn-sm" formaction="/deleted">delete</button>
+                                <button type="submit" style="margin-left:5%; margin-right:5%" class="btn btn-primary btn-sm" formaction="/view">view</button>
+                        </form> <%}%>
+                    </div>
+                </div>
+                
+                <div class="col-sm-8">
+                    <% if (typeof data != "undefined"){ %>
+                    <div class="jumbotron">
+                        <%data.forEach( function( data ){ %>
+                        <% i=Date.now(); %>
+                        <% a = data.created; %> 
+                        <% c = Date.parse(a);%>
+                        <% e= i-c; %>
+                        <%add = Math.round(Math.abs(e/(1000*60*60*24)));%>
+                        <pre style="width:100%">
+<p style="font-size: 15px" name ="dog"><%= data._id %></p>
+<p style="font-size: 15px" name ="cat"><%= data.type %></p>
+<p style="font-size: 15px"><%= data.description %></p>
+
+<% if (data.options){%><p style="font-size: 15px;text-decoration: underline">options</p><% for (e = 0; e< data.options.length; e++){%><p style="font-size: 15px"><%= data.options[e].item %></p><%}}%>
+
+
+<p style="font-size: 15px"> <%= add %> days ago this item was added </p>
+                        </pre> 
+                        <% }); %>  <%}%>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
+    </body>
+</html>
+
+
+
+

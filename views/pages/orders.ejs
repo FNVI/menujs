@@ -1,0 +1,221 @@
+<!-- views/pages/about.ejs -->
+<script>
+    window.onload= function(){  
+        var e = document.getElementById("day");
+        var monthcol = document.getElementById("month");
+        var f =0; var tt = 0; var g = 0;var h =0;var ee = 0;
+        var paym =0; var npaym = 0; var nstam = 0;var stam =0;var comm = 0; var delm = 0;
+        var ff= 0;var fffff= 0;var count =0; var monthcount=0;
+        
+   <% data.forEach( function( data ){%>
+       var ttt = <%- JSON.stringify(data.timestamp) %>;
+         var answer = data(ttt);
+         if(answer === true){
+             count++;
+                <%if(data.status.pay === "payed"){%>
+                    ff++;
+                <%}%>
+                <%if(data.status.pay === "not payed"){%>
+                    ee++;
+                <%}%>
+                <%if(data.status.food === "delievered"){%>
+                    fffff++;
+                <%}%>
+                <%if(data.status.food === "complete"){%>
+                    f++; 
+                <%}%>
+                <%if(data.status.food === "started"){%>
+                    g++;
+                <%}%>
+                <%if(data.status.food === "not started"){%>
+                    h++;
+                <%}%>}
+         var month = datamonth(ttt);
+                
+                if(month=== true){
+            monthcount++;
+                <%if(data.status.pay === "payed"){%>
+                    paym++;
+                <%}%>
+                <%if(data.status.pay === "not payed"){%>
+                    npaym++;
+                <%}%>
+                <%if(data.status.food === "delievered"){%>
+                    delm++;
+                <%}%>
+                <%if(data.status.food === "complete"){%>
+                    comm++; 
+                <%}%>
+                <%if(data.status.food === "started"){%>
+                    stam++;
+                <%}%>
+                <%if(data.status.food === "not started"){%>
+                    nstam++;
+                <%}%>}
+                <%})%>
+    
+    
+     var sse = document.createElement("p");
+        var yye = document.createTextNode("orders amount : " + monthcount );    
+        sse.appendChild(yye);    
+        monthcol.appendChild(sse); 
+        
+        var pe = document.createElement("p");
+        var ye = document.createTextNode("payed: " + paym +"    not payed: " + npaym );
+        pe.appendChild(ye);
+        monthcol.appendChild(pe); 
+        
+        var je = document.createElement("p");
+        var te = document.createTextNode("delivered : "+ delm + " complete: " + comm +"    started: " + stam +"    not started: " + nstam);    
+        je.appendChild(te);
+        monthcol.appendChild(je);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+        var ss = document.createElement("p");
+        var yy = document.createTextNode("orders amount : " + count );    
+        ss.appendChild(yy);    
+        e.appendChild(ss); 
+        
+        var p = document.createElement("p");
+        var y = document.createTextNode("payed: " + ff +"    not payed: " + ee );
+        p.appendChild(y);
+        e.appendChild(p); 
+        
+        var j = document.createElement("p");
+        var t = document.createTextNode("delivered : "+ fffff + " complete: " + f +"    started: " + g +"    not started: " + h);    
+        j.appendChild(t);
+        e.appendChild(j);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    };
+    
+    
+      function datamonth(e){
+       var d=new Date(e);  //converts the string into date object
+  var m=d.getMonth()+1; //get the value of month
+   
+   
+ var rer=new Date();  //converts the string into date object
+  var mm=rer.getMonth()+1; //get the value of month
+ 
+   if(mm === m){
+       return true;
+   }
+   else{
+       return false;
+   }
+   
+       }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    function data(e){
+       var d=new Date(e);  //converts the string into date object
+  var m=d.getMonth()+1; //get the value of month
+   var r=d.getDate();
+   var aa = d.getFullYear();
+   var text = r+"/"+m+"/"+aa;
+   
+ var rer=new Date();  //converts the string into date object
+  var mm=rer.getMonth()+1; //get the value of month
+   var ww=rer.getDate();
+   var aaa = rer.getFullYear();
+   var texttime = ww+"/"+mm+"/"+aaa;
+ 
+   if(texttime === text){
+       return true;
+   }
+   else{
+       return false;
+   }
+   
+       }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <% include ../partials/heade %>
+    </head>
+    <body class="container">
+        <header>
+            <% include ../partials/headerwork %>
+        </header>
+        <main>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="well" id="day">
+                        todays total 
+                    </div>
+                    <div class="well" id="month">
+                        month total
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <% if (typeof data !== "undefined"){ %>
+                        <div class="jumbotron">
+                        <%data.forEach( function( data ){ %>
+                            <pre style="width:100%">
+                                <p style="font-size: 15px" name ="dog">order id : <%= data._id %></p>
+                                <p style="font-size: 15px" name ="cat">Table :<%= data.table %></p>
+                                <p style="font-size: 15px" name ="cat">Time : <%= data.timestamp %></p>
+                                <p style="font-size: 15px" name ="dog">status of food: <%= data.status.food%></p>
+                                <p style="font-size: 15px" name ="cat">status of pay: <%= data.status.pay %></p>
+                                    <% if (data.orderitem){%>
+                                        <p style="font-size: 15px;text-decoration: underline">item ordered</p>
+                                        <% for (e = 0; e< data.orderitem.length; e++){%>
+                                            <p style="font-size: 15px" name ="dog"><%= data.orderitem[e].description %> x <%= data.orderitem[e].qty %></p>
+                                            <% if (data.orderitem[e].options.length !== 0){%>
+                                                <p style="font-size: 15px;text-decoration: underline">options</p>
+                                                <% for (l = 0; l< data.orderitem[e].options.length; l++){%>
+                                                    <p style="font-size: 15px" name ="cat"><%= data.orderitem[e].options[l] %></p>
+                                <%}}}}%>
+                            </pre> 
+                    <%})}%>
+                        </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
+    </body>
+</html>
+
+
+
+

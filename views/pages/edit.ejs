@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/heade %>
+</head>
+<body class="container">
+    <header>
+        <% include ../partials/headerwork %>
+    </header>
+    <main>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="well">
+                    <h3 style="align-content: center">form stuff</h3>
+                    <button style="width:100%;height:50px;margin-bottom: 50px "><a href="/food/add">add new</a></button>
+                    
+                </div>
+            </div>
+        
+            <div class="col-sm-8">
+                <div class="jumbotron">
+                 
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <label>ID:</label>
+                            <select name="selection" style="margin: 5px;height:50px; width: 100%;margin-bottom: 5px">
+                            <% data.forEach(function (data){%>
+                            <option value="<%=data._id%>"><%=data._id%></option>
+                            <% if (data.options){%>
+                            <% for (e = 0; e< data.options.length; e++){%>
+                            <label name ="option" value =e>option:</label>
+                            <input type="text" class="form-control" name="option" value="<%= data.options[e].item %>">
+                            
+                            <%}}%>
+                           </select>  <br>           
+                            <label name ="ede" value ='<%=data._id%>'>description:</label>
+                            
+                            <input type="text" class="form-control" name="des" value="<%=data.description%>">
+                            <label>type:</label>
+                            <input type="text" class="form-control" name="type" value="<%=data.type%>"> 
+                            <label>price:</label>
+                            <input type="text" class="form-control" name="price"  value="<%=data.price%>">
+                            <label>day this item is on menu or special ossossians </label>
+                            <select name="dated" style="margin: 5px;height:50px; width: 100%;margin-bottom: 5px">
+                            
+                            <option value="all">all days</option>
+                            <option value="monday">monday</option>
+                            <option value="tuesday">tuesday</option>
+                            <option value="wednesday">wednesday</option>
+                            <option value="thursday">thursday</option>
+                            <option value="friday">friday</option>
+                            <option value="saturday">saturday</option>
+                            <option value="sunday">sunday</option>
+                            <option value="fathers">fathers weekend</option>
+                            <option value="christmas">christmas</option>
+                            <option value="mothers">mothers weekend</option>
+                            
+                            
+                             <% }); %> 
+                             </select>  <br> 
+                            
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg" formaction="/editedstuff">Add to Top</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>   
+</body>
+</html>

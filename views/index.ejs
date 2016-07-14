@@ -1,0 +1,196 @@
+<html lang="en">
+    <head>
+        <script>
+            var menu = <%- JSON.stringify(menu) %>;
+        </script>
+        <% include ../views/partials/heade %>
+    </head>
+    <body class="container">
+        <header>
+            <% include ../views/partials/header %>
+        </header>
+        <main>
+            <div id="jumped" style = "height: 80px; width:auto; display: none; background-color: #E7E9F6">
+                <h3 id ="orderstuff" ></h3></div>
+           <div class="jumbotron" id="jum" style ="min-height: 80%">
+              <div  class="col-sm-8" id="none" style="overflow: auto">
+                    <%data.forEach( function( data ){ %>
+                    <div class="food-item"   id='<%=data.type%>' name="box"  value='<%=data._id%>' style="border-radius: 5px;border: 2px solid #fff; background: #E7E9F6;min-height:50px; margin-bottom: 3%; max-height: 100px">
+                        <table style="width:100%" ><tr><td id ="red" value='<%=data.description%>'><%= data.description %></td><td><%= data.price %></td> <td><button style="float:right;margin-top:10px;border-radius: 5px; background: #fdd; display:none" id="btn" type="button" class="food-item-btn-add" data-toggle="modal" data-target="#options" data-price="<%=data.price%>" data-des="<%=data.description%>" data-id="<%=data._id%>">Add</button></td></tr></table><br>
+                    </div>
+                    
+                    <%})%>
+                </div>  
+               
+               <%if (data){%>
+                <div  class ="col-sm-4" style="margin-bottom: 40px;">
+                    <div style ="text-align: center">
+                    table number :<select  id="more" onChange="myFun(this)">
+                        <option>-</option>
+                        <%for ( i=1; i< 16;i++){%>
+                        <option><%=i%></option>
+                        <%}%>
+                    </select><h4 id="tablestuff"></h4>
+                    </div>
+                   <div style="height:50%;border-color:#999999; background-color:#dedede ;border-style: solid;border-width: 2px; margin-top: 10px;  overflow: auto;">
+                   
+                   <p id ="des">put in your table number to order</p>
+                   
+                   <p id ="det"></p> 
+                   </div><div style="text-align: center">
+                   <table style="font-size: 24px">
+                       <td>Total price:</td><td id ="total"></td> 
+                   </table>
+                   <br>
+                   
+                       <button type="button" class="btn btn-default" style="float:bottom; margin: 0 auto; " id="everything">submit order</button></div>
+                </div>
+                
+                <%}%>
+                <!-- Modal -->
+                <div class="modal fade" id="options" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <input type="number" id="qty" min="1" max="30">
+                                <div id="randomname">
+                                    
+                                </div> 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="save" data-dismiss="modal">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    
+              
+                    
+                    
+                    
+                    
+                                var order = {};
+                                var er, erd,price; 
+                                var totalprice =0;
+                                var cc =""; var dd =[];
+                                var dre = document.getElementById("des");
+                                
+                                 var total = document.getElementById("total");
+                                var drer = document.getElementById("det");
+                              
+    var t;
+                      function myFun(e){
+                            t = e.options[e.selectedIndex].text;
+                            var b =document.getElementById("btn");
+                            var k=document.getElementById("tablestuff");
+                                    if(t !== 0 || t !== null|| t=== "-"){
+                                        b.style.display="inline";
+                                        k.style.display="inline";
+                                        k.innerHTML=t;
+                                   e.style.display="none";
+                                        dre.innerHTML="order";
+                                        
+                                  
+                                } else{
+                                    b.style.display="none";
+                                    dre.innerHTML="order";
+                                      
+                                }
+                      }
+                     
+                            $('#everything').click(function(){
+                            
+                            if(cc !== "" ){
+                                $.post("/cat",order, function(data){
+                                       var delay=10000; 
+                                       document.getElementById("jum").style.display="none";
+                                       document.getElementById("jumped").style.display="block";
+                                       document.getElementById("orderstuff").innerHTML="your order be with you shortly";
+                                       
+                                      setTimeout(function() { window.location.reload();
+                                        }, delay);
+                                               });
+                                
+                                
+                                }
+                            });
+                
+                            $('#options').on('show.bs.modal',function(e){
+                                er = $(e.relatedTarget).data("des");
+                                erd = $(e.relatedTarget).data("price");
+                                var id = $(e.relatedTarget).data("id");
+                                var modal = $(this);
+                                var item = menu[id];
+                                modal.find('#title').text(item.description);
+                                modal.find('#randomname').empty();
+                                modal.find('#qty').val(1);
+                                if(item.options){
+                                    for(var i = 0; i < item.options.length; i++){
+                                        var text = item.options[i].item;
+                                        var div = $('<div>');
+                                        div.append($('<input>').attr({
+                                            type:"checkbox",
+                                            value:text
+                                        }));
+                                        div.append($('<label>'+text+'</label>'));
+                                        modal.find('#randomname').append(div);
+                                    }
+                                }
+                                modal.find('#save').data("id",id);
+                            });
+                            
+                            $('#save').click(function(){
+                                var id = $(this).data("id");
+                                        var qty = parseInt($("#qty").val());
+                                        
+                                        var options = [];
+                                        $('#options').find("input:checked").each(function (index, element) {
+                                            options.push($(element).val());
+                                        });
+                                        order[id] = order[id] || {qty: 0, options: []};
+                                        order[id].table = t;
+                                        order[id].description = er;
+                                        order[id].qty = order[id].qty + qty;
+                                        if (options.length) {
+                                            for (var i = 0; i < qty; i++) {
+                                                order[id].options.push(options);
+                                            }
+                                        }
+                                        cc = drer.innerHTML + (er + " X " + qty + "  ");
+                                       
+                                        price = erd * qty; 
+                                        totalprice = totalprice + price;
+                                        
+                                        if(options.length){
+                                        drer.innerHTML = drer.innerHTML + er + " X " + qty + " : "+ price+ '<br>'+"options:" + options + '<br>';
+                                    total.innerHTML = totalprice;}
+                                     else{
+                                        drer.innerHTML = drer.innerHTML + er + " X " + qty + "  : "+ price+ '<br>';
+                                    total.innerHTML = totalprice;}
+    
+    
+                                    
+                                    });
+
+                                    $('.add').click(function () {
+                                        $(this).prev().val(+$(this).prev().val() + 1);
+                                    });
+
+                                    $('.sub').click(function () {
+                                        if ($(this).next().val() > 0)
+                                            $(this).next().val(+$(this).next().val() - 1);
+                                    });
+                </script>
+           </div>
+        </main>
+        <footer>
+
+        </footer>
+    </body>
+</html>

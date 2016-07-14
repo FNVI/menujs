@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <% include ../partials/heade %>
+    </head>
+    <body class="container">
+        <header>
+            <% include ../partials/headerwork %>
+        </header>
+        <main>
+            <div class="jumbotron">
+                <form action="/login" method="post">
+                    <div class="form-group" id="we2">
+                        <label>description:</label>
+                        <input type="text" class="form-control" id="des">
+                        <label>type:</label>
+                        <input type="text" class="form-control" id="type">
+                        <label>price:</label>
+                        <input type="text" class="form-control" id="price">
+                        options :<input type="number" placeholder="1" id="table" min="0">
+                        <input type="button" onclick="myFunction()">
+                        <select id="dated" style="margin: 5px;height:50px; width: 100%;margin-bottom: 5px">
+                            <option value="all">all days</option>
+                            <option value="monday">monday</option>
+                            <option value="tuesday">tuesday</option>
+                            <option value="wednesday">wednesday</option>
+                            <option value="thursday">thursday</option>
+                            <option value="friday">friday</option>
+                            <option value="saturday">saturday</option>
+                            <option value="sunday">sunday</option>
+                            <option value="fathers">fathers weekend</option>
+                            <option value="christmas">christmas</option>
+                            <option value="mothers">mothers weekend</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="save" data-dismiss="modal">Save changes</button>
+                </form>
+                
+                <script>
+                    function myFunction(){
+                        var a = document.getElementById("table").value;
+                        var b =document.getElementById("we2");
+                        if(a !== 0 || a !== null){
+                            for( e=0; e<a; e++){
+                                var text = document.createElement('p');
+                                text.innerHTML="option"+e;
+                                var input = document.createElement('input');
+                                input.name = "options[]";
+                                input.id = "option"+e;
+                                text.appendChild(input);
+                                b.appendChild(text);  
+                                };
+                            };
+                        };
+                        var r =[];
+                        $('#save').click(function(){
+                            var des = document.getElementById("des").value;
+                            var eddd = document.getElementById("dated").value;
+                            var price= document.getElementById("price").value;
+                            var type = document.getElementById("type").value;
+                            var a = document.getElementById("table").value;
+                            var ed =[];
+                            for( e=0; e<a; e++){
+                                  ed[e] = document.getElementById("option"+e).value;
+                                  alert(ed[e]);
+                              }
+                              r = {
+                                  "description": des,
+                                  "day":eddd,
+                                  "price":price,
+                                  "type":type,
+                                  "options": ed
+                              };
+                              $.post("/added",r,function(data){
+                                  alert(data.message);
+                                  window.location = "/profile";
+                              });
+                          });
+                </script>
+            </div>
+        </main>
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
+    </body>
+</html>

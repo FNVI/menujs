@@ -1,0 +1,28 @@
+{
+  "name": "nodes",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node bin\/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "ejs": "~2.3.3",
+    "express": "~4.13.1",
+    "less-middleware": "1.0.x",
+    "morgan": "~1.6.1",
+    "monk": "^1.0.1",
+    "mongodb": "^2.1.18",
+    "serve-favicon": "~2.3.0",
+    "async":"1.5.2",
+    "assert":"latest",
+    "multer":"latest",
+    "passport" : "~0.1.17",         
+    "passport-local" : "~0.1.6",   
+    "bcrypt-nodejs" : "latest",
+    "express-session": "~1.0.0" 
+
+  }
+}

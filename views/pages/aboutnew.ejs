@@ -1,0 +1,46 @@
+<!-- views/pages/about.ejs -->
+
+<html lang="en">
+<head><script>var a = getDay(); window.alert(a); </script>
+    <% include ../partials/heade %>
+</head>
+<body class="container">
+    <header>
+        <% include ../partials/headerwork %>
+    </header>
+    <main>
+        <div class="jumbotron">
+            <pre><p></p></pre>
+           <div class="row">
+            
+                <% if (typeof order[0].orderitem[0].description ? order[0].orderitem[0].description : '') {%>
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <pre> <p>items ordered</p>
+                        <% order.forEach(function (order){%>
+                                <p >order number <%=order._id%></p>
+<% var add =0 ;%>
+    <% for(var i=0; i<ed; i++) { %>   
+        <p> <%=order.orderitem[i].description%>
+            <%=order.orderitem[i].price%></p>
+        <% add = add + order.orderitem[0].price%>
+        
+    <% } %>
+<p>total price = <%=add%></p>
+<% }); %>
+ <% } %>
+                                
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+   
+    </main>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+</body>
+</html>

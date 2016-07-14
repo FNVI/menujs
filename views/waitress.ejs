@@ -1,0 +1,63 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>  
+        <% include ../views/partials/heade %>
+    </head>
+    <body class="container">
+        <header>
+            <% include ../views/partials/headerwork %>
+        </header>
+        <main>
+            <div class="jumbotron">
+                <div class="row">
+                    <% if (topay) {%>
+                    <div class="col-sm-4">
+                        <pre>
+<p style="text-decoration: underline ">still to pay</p>
+<% topay.forEach(function (topay){%>
+<pre><p >order number</p>
+<p><%=topay._id%></p>
+<p>table <%=topay.table%></p>
+<% var add =0;%>
+<% for(var i=0; i<topay.orderitem.length; i++) { %>   
+    <%add = add + (topay.orderitem[i].price * topay.orderitem[i].qty) %>
+<% } %>
+<p>total price = <%=add%></p>
+    <form action="/login"  method="post" >
+    <button type="submit" name = "payed" value='<%=topay._id%>' class="btn btn-primary btn-sm"  formaction="/nextstage<%=topay.status.pay%>" >payed</button></p>
+
+    </form></pre><%})%>
+                        </pre>   
+                    </div>
+                    <%}%>
+
+
+                    <% if (order) {%>
+                    <div class="col-sm-8">
+                        <div class="jumbotron">
+                            <pre> <p style="text-decoration: underline ">stuff ready to collect</p>
+<% order.forEach(function (order){%>
+<pre><p >order number <%=order._id%></p>
+<p>table <%=order.table%></p>
+<form action="/login"  method="post" >
+   <button type="submit" name = "id" value='<%=order._id%>' class="btn btn-primary btn-sm"  formaction="/nextstage<%=order.status.food%>">delievered</button></p>
+</form></pre>
+    <% }); %>
+                            </pre>
+                        </div>
+                    </div>
+                    <%}%>
+
+
+
+
+
+                </div>           
+        </main>
+        <footer>
+            <% include ../views/partials/footer %>
+        </footer>
+    </body>
+</html>
